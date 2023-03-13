@@ -1,4 +1,5 @@
 /// <refernce types="Cypress" />
+
 describe("register tests", () => {
     it("register without first name provided", () => {
       cy.visit("/register");

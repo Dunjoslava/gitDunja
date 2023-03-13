@@ -1,47 +1,44 @@
-/// <reference types="Cypress" /.
+/// <reference types="Cypress" />
+
+const locators = require("../fixtures/locators.json");
 
 describe("login tests", () => {
-    it("login with non-unregistered user", () => {
-      cy.visit("/");
-      cy.get("a[href='/login']").click();
-      cy.get("#email").type("random@mail.com");
-      cy.get("#password").type("Konstantin2012");
-      cy.get("button").click();
-    });
-  
-    it("register without email address provided", () => {
-      cy.visit("/");
-      cy.get("a[href='/login']").click();
-      cy.get("#password").type("Konstantin2012");
-      cy.get("button").click();
-      cy.url().should("contain", "/login");
-    });
-  
-    it("register without password provided", () => {
-      cy.visit("/");
-      cy.get("a[href='/login']").click();
-      cy.get("#email").type("dunjatest@gmail.com");
-      cy.get("button").click();
-      cy.url().should("contain", "/login");
-    });
-  
-    it("login with valid credentials", () => {
-      cy.visit("/");
-      cy.get(".nav-link").eq(1).click();
-      cy.get("#email").type("dunjatest@gmail.com");
-      cy.get("#password").type("Konstantin2012");
-      cy.get("button").click();
-      cy.url().should("not.contain", "/login");
-    });
-  });
-  
-  it.only("logout", () => {
-    cy.visit("https://gallery-app.vivifyideas.com/");
+  it("login with unregistered user", () => {
+    cy.visit("/");
     cy.get("a[href='/login']").click();
-    cy.get("#email").type("dunjatest@gmail.com");
-    cy.get("#password").type("Konstantin2012");
+    cy.get("#email").type("random@mail.com");
+    cy.get("#password").type("Test12345");
+    cy.get("button").click();
+    cy.url().should("contain", "/login");
+  });
+
+  it("login without email address provided", () => {
+    cy.visit("/");
+    cy.get("a[href='/login']").click();
+    cy.get("#password").type("Test12345");
+    cy.get("button").click();
+    cy.url().should("contain", "/login");
+  });
+
+  it("login with valid credentials using locators", () => {
+    cy.visit("/");
+    cy.get(locators.commonFormElements.navbarLink).eq(1).click();
+    cy.get(locators.commonFormElements.emailInput).type(
+      "nedovic.filip@gmail.com"
+    );
+    cy.get(locators.commonFormElements.passwordInput).type("Test12345");
+    cy.get(locators.commonFormElements.submitButton).click();
+    cy.url().should("not.contain", "/login");
+  });
+
+  it("logout", () => {
+    cy.visit("/");
+    cy.get(".nav-link").eq(1).click();
+    cy.get("#email").type("nedovic.filip@gmail.com");
+    cy.get("#password").type("Test12345");
     cy.get("button").click();
     cy.url().should("not.contain", "/login");
-    //cy.wait(3000);
+    // cy.wait(1500);
     cy.get(".nav-link").eq(3).click();
   });
+});
