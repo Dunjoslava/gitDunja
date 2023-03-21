@@ -1,4 +1,5 @@
 class LoginPage {
+
     get loginLink() {
       return cy.get(".nav-link").eq(1);
     }
@@ -13,6 +14,10 @@ class LoginPage {
   
     get submitButton() {
       return cy.get("button");
+    }
+
+    get errorMessage() {
+        return cy.get(".alert-danger")
     }
   
     login(email, password) {
